@@ -28,7 +28,7 @@ for i in range(45):
 def calDistance(test, train):
     dist = ((float(test[0]) - float(train[0])) ** 2 + (float(test[1]) - float(train[1])) ** 2
             + (float(test[2]) - float(train[2])) ** 2 + (float(test[3]) - float(train[3])) ** 2
-            ) ** 0.2
+            ) ** 0.5
     return dist
 
 labeltest = []
@@ -61,7 +61,7 @@ for i in range(45):
 print(labeltest)
 print(answer)
 correct = 0
-for i in len(answer)-1:
+for i in range(45):
     if labeltest[i] == answer[i]:
         correct +=1
 
