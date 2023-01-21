@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 import random
-import math
 import heapq
 # 导入数据
 data = pd.read_csv('iris.data', sep=' ')
@@ -22,9 +21,7 @@ for i in range(50):
     setosa_data[i][4] = 0
     versicolor_data[i][4] = 1
     virginica_data[i][4] = 2
-
-# 划分训练集和测试集
-# 取70%作为训练集，剩下30%作为测试集
+# 划分训练集和测试集（取70%作为训练集，剩下30%作为测试集）
 train_data =[]
 test_data=[]
 list0 = list(range(50))
@@ -34,7 +31,6 @@ for i in train0:
     list0.remove(i)
 for i in list0:
     test_data.append(setosa_data[i])
-
 list1 = list(range(50))
 train1 = random.sample(list1, 35)
 for i in train1:
@@ -42,10 +38,8 @@ for i in train1:
     list1.remove(i)
 for i in list1:
     test_data.append(versicolor_data[i])
-
 list2 = list(range(50))
 train2 = random.sample(list2, 35)
-
 for i in train2:
     train_data.append(virginica_data[i])
     list2.remove(i)
@@ -53,7 +47,7 @@ for i in list2:
     test_data.append(virginica_data[i])
 
 
-k = 10
+k = 3
 # 计算距离
 correct = 0
 for i in range(44):
@@ -61,8 +55,8 @@ for i in range(44):
     results = []
     r=0
     for j in range(104):
-        d = abs(((test_data[i][0] - train_data[j][0]) ** 4 + (test_data[i][1] - train_data[j][1]) ** 4 +
-                      (test_data[i][2] - train_data[j][2]) ** 4 + (test_data[i][3] - train_data[j][3]) ** 4))**0.3333
+        d = abs(((test_data[i][0] - train_data[j][0]) ** 2 + (test_data[i][1] - train_data[j][1]) ** 2 +
+                      (test_data[i][2] - train_data[j][2]) ** 2 + (test_data[i][3] - train_data[j][3]) ** 2))**0.5
         distance.append(d)
         min_number = heapq.nsmallest(k, distance)
         min_index = []
