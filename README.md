@@ -67,7 +67,11 @@
 关于KNN的学习了解结束~
 
 第四次尝试，SVM算法
+根据理解进行计算，第一次尝试的结果不很满意
+![img.png](img.png)
+感觉貌似是有什么地方写错了。。。
 
-通过KNN的尝试过程后决定先用sklearn验证一下，并阅读了相关源码，结果如下：
+用sklearn验证一下，并阅读了相关源码，结果如下：
 
 ![image-20230120123625798](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20230120123625798.png)
+
