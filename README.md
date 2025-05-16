@@ -1,82 +1,142 @@
-#### 注：
-有（sklearn）的是直接调用sklearn的，knn2.0是最后跑成功的（算作业）其他算是尝试emmm以及 思路展示
+# 鸢尾花分类项目 (Iris Classification)
 
+## 项目概述
 
+本项目实现了对著名的鸢尾花数据集(Iris Dataset)的分类算法。鸢尾花数据集包含三种不同类型的鸢尾花（山鸢尾、变色鸢尾和维吉尼亚鸢尾）的测量数据，每种花有50个样本，共150个样本。每个样本包含四个特征：花萼长度、花萼宽度、花瓣长度和花瓣宽度。
 
-首先通过pandas、numpy、matlablib，导入数据，并绘制散点图，对于任务有了一个大概的认知。（刚拿到的时候并不很明确要做什么）
+本项目实现了两种不同的分类算法：
+1. K近邻算法 (KNN)
+2. 支持向量机 (SVM)
 
-导入数据
+对于每种算法，我们提供了自己实现的版本和使用sklearn库的版本，以便比较和学习。
 
-![image-20230116210907906](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20230116210907906.png)
+## 项目结构
 
-对数据进行分类整理，并绘图
+```
+/iris_classify
+├── data/                  # 数据文件夹
+│   ├── iris.data          # 鸢尾花数据集
+│   ├── bezdekIris.data    # 备份数据集
+│   └── iris.names         # 数据集说明文件
+├── models/                # 模型实现
+│   ├── knn_classify_iris.py       # KNN算法实现
+│   ├── knn_classify_iris2.0.py    # 改进版KNN算法实现
+│   ├── knn(sklearn)_classify_iris.py  # 使用sklearn的KNN实现
+│   ├── svm_classify_iris.py       # SVM算法实现
+│   └── svm(sklearn)_classify_iris.py  # 使用sklearn的SVM实现
+├── utils/                 # 工具函数
+│   ├── data_loader.py     # 数据加载和预处理工具
+│   └── metrics.py         # 评估指标和距离计算工具
+├── visualization/         # 可视化工具
+│   ├── plot_iris.py       # 数据可视化脚本
+│   ├── visualize.py       # 可视化工具函数
+│   └── img.png            # 可视化结果图
+└── README.md              # 项目说明文件
+```
 
-![image-20230116211116626](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20230116211116626.png)
+## 算法实现
 
-![image-20230116211004733](file://C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20230116211004733.png?lastModify=1674188032)
+### KNN算法
 
-一开始看数据介绍里，是给了花的两个部分（？）每个部分各两组数据，于是分开画了两张图。
+我们实现了两个版本的KNN算法：
 
-![image-20230116211130126](file://C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20230116211130126.png?lastModify=1674188097)
+1. **基础版KNN算法** (`knn_classify_iris.py`)：
+   - 实现了基本的K近邻算法
+   - 使用欧几里得距离计算样本间距离
+   - 通过投票方式确定类别
 
-![image-20230116211012111](file://C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20230116211012111.png?lastModify=1674188104)
+2. **改进版KNN算法** (`knn_classify_iris2.0.py`)：
+   - 改进了数据划分方式
+   - 使用加权KNN算法，距离越近的样本权重越大
+   - 准确率显著提高，达到91%-97%
 
-（然而好像并没有什么用。。不过确实帮助我理解了要求。。
+3. **使用sklearn的KNN实现** (`knn(sklearn)_classify_iris.py`)：
+   - 使用sklearn库的KNeighborsClassifier
+   - 作为参考和基准
 
-首先尝试的事KNN算法，选择KNN算法的原因是，计算上比较简单，比较容易理解（感觉比较容易写？）
+### SVM算法
 
-第一次尝试没有调用sklearn包
+我们也实现了两个版本的SVM算法：
 
-导入数据以后将花名，赋值0,1,2.并没有想到什么好的随机方法于是就比较复杂，分成了一个训练集和测试集。一开始想的事训练集里三种花平均分布，于是这一步就写的比较复杂
+1. **自实现SVM算法** (`svm_classify_iris.py`)：
+   - 实现了基本的支持向量机算法
+   - 使用梯度下降优化参数
 
-![image-20230120121827383](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20230120121827383.png)
+2. **使用sklearn的SVM实现** (`svm(sklearn)_classify_iris.py`)：
+   - 使用sklearn库的SVC类
+   - 使用RBF核函数
+   - 作为参考和基准
 
-第一次尝试里，距离计算也比较草率？反正就是跟着浅薄的数学知识走。没有想到要去定义函数什么，就用了两个for循环硬写。
+## 数据可视化
 
-![image-20230120122252641](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20230120122252641.png)
+项目包含数据可视化工具，可以绘制：
+- 花萼特征（长度vs宽度）散点图
+- 花瓣特征（长度vs宽度）散点图
+- 混淆矩阵
+- 决策边界
 
-在最后统计结果的时候，也只是在k个近邻里取平均值作为判断结果。（结果不很令人满意。。正确率只有34%
+## 使用方法
 
-![image-20230120122504708](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20230120122504708.png)
+### 运行KNN算法
 
-第二次尝试就想先验证一下KNN算法，于是直接调用了sklearn的KNN。正确率在97%（那问题一定是我写的有问题而不是算法的问题
+```bash
+# 运行自实现的KNN算法
+python models/knn_classify_iris.py
 
-![image-20230120122720592](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20230120122720592.png)
+# 运行改进版KNN算法
+python models/knn_classify_iris2.0.py
 
-然后就开始了第三次尝试，重新写了一遍KNN
+# 运行sklearn的KNN实现
+python models/knn\(sklearn\)_classify_iris.py
+```
 
-第一个变化是划分训练集测试集的时候并没有刻意让三种花平均分布
+### 运行SVM算法
 
-![image-20230120122906763](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20230120122906763.png)
+```bash
+# 运行自实现的SVM算法
+python models/svm_classify_iris.py
 
-第二个变化是，虽然没有改变计算逻辑，但给距离计算写了个函数（算优化代码？
+# 运行sklearn的SVM实现
+python models/svm\(sklearn\)_classify_iris.py
+```
 
-![image-20230120122945793](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20230120122945793.png)
+### 数据可视化
 
-第三个，在统计距离的时候也稍微优化了一下代码（本来是调用了什么库。。。）现在是用sorted函数
+```bash
+# 绘制鸢尾花数据特征散点图
+python visualization/plot_iris.py
+```
 
-![image-20230120123132831](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20230120123132831.png)
+## 算法比较
 
-第四个，在取最后判断的时候，也从直接平均，改为了距离加权平均。
+| 算法 | 实现方式 | 准确率 | 优点 | 缺点 |
+|------|---------|-------|------|------|
+| KNN | 自实现基础版 | ~34% | 简单直观 | 准确率低 |
+| KNN | 自实现改进版 | 91%-97% | 高准确率，加权策略有效 | 类别划分区间可能不够合理 |
+| KNN | sklearn | ~97% | 高准确率，实现简单 | 黑盒，不利于理解算法 |
+| SVM | 自实现 | 视参数而定 | 理解算法原理 | 实现复杂，优化困难 |
+| SVM | sklearn | ~97% | 高准确率，参数可调 | 黑盒，不利于理解算法 |
 
-![image-20230120123236207](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20230120123236207.png)
+## 改进方向
 
-最终正确率在91-97
+1. **KNN算法**：
+   - 在加权平均结果到最终类别的映射中，当前使用的区间划分为(0,0.5],(0.5,1.5],(1.5,2]，可以探索更合理的划分方式
+   - 尝试不同的距离计算方法，如曼哈顿距离、闵可夫斯基距离等
+   - 实现自动选择最优K值的方法
 
-![image-20230120123317780](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20230120123317780.png)
+2. **SVM算法**：
+   - 改进优化方法，如使用SMO算法
+   - 尝试不同的核函数
+   - 实现多类分类的不同策略，如一对一、一对多等
 
-可以改进的地方：
+3. **通用改进**：
+   - 实现交叉验证
+   - 添加特征选择和特征工程
+   - 尝试集成学习方法
 
-在最后一步，从加权平均的结果到最终结果的时候，是将0-2划分为（0,0.5],(0.5,1.5],(1.5,2]这样三个区间对应三种结果。感觉这样划分有点不合理 但又不知道怎么划分？
+## 参考资料
 
-关于KNN的学习了解结束~
-
-第四次尝试，SVM算法
-根据理解进行计算，第一次尝试的结果不很满意
-![img.png](img.png)
-感觉貌似是有什么地方写错了。。。
-
-用sklearn验证一下，并阅读了相关源码，结果如下：
-
-![image-20230120123625798](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20230120123625798.png)
+- [UCI Machine Learning Repository: Iris Data Set](https://archive.ics.uci.edu/ml/datasets/iris)
+- [K近邻算法 - 维基百科](https://zh.wikipedia.org/wiki/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95)
+- [支持向量机 - 维基百科](https://zh.wikipedia.org/wiki/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA)
 
